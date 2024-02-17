@@ -1,21 +1,41 @@
-FROM        debian:latest
+FROM debian:latest
 
-RUN         apt-get update -y                           \
-            && apt-get install -y nginx                 \
-            && apt-get install -y openssh-server        \
-            && apt-get install -y zstd                  \
-            && apt-get install -y tor                   \
-            && apt-get upgrade -y                       \
-            && rm -f /etc/nginx/sites-enabled/*         \
-            && rm -f /var/www/html/*
+RUN apt-get update -y \
+    && apt-get install -y \
+    sudo \
+    nginx \
+    openssh-server \
+    tor
 
-COPY        ./website/*         /var/www/html/
-COPY        ./nginx.conf        /etc/nginx/nginx.conf
-COPY        ./sshd_config       /etc/ssh/sshd_config
-COPY        ./torrc             /etc/tor/torrc
-COPY        ./entrypoint.sh     /entrypoint.sh
+RUN rm -f /etc/nginx/sites-enabled/* && \
+    rm -f /var/www/html/* && \
+    echo "nginx ALL=(ALL) NOPASSWD: /usr/sbin/service ssh start, /usr/sbin/service tor start" > /etc/sudoers.d/nginx
 
-RUN         chmod u=rx /entrypoint.sh
+COPY ./.env                 /.env
+COPY ./website/*            /var/www/html/
+COPY ./nginx.conf           /etc/nginx/nginx.conf
+COPY ./sshd_config          /etc/ssh/sshd_config
+COPY ./torrc                /etc/tor/torrc
+COPY ./entrypoint.sh        /entrypoint.sh
+COPY ./ssh/authorized_keys  /tmp/authorized_keys
 
-ENTRYPOINT  ["/entrypoint.sh"]
-CMD         ["nginx", "-g", "daemon off;"]
+RUN useradd -m -s /bin/bash nginx && \
+    echo "nginx:$(cat /.env | grep USR_PASS | cut -d '=' -f 2)" | chpasswd && \
+    mkdir -p /home/nginx/.ssh && \
+    mv /tmp/authorized_keys /home/nginx/.ssh/authorized_keys && \
+    chown -R nginx:nginx /home/nginx && \
+    chmod 700 /home/nginx/.ssh && \
+    chmod 600 /home/nginx/.ssh/authorized_keys && \
+    rm -f /.env
+
+RUN chmod +x /entrypoint.sh && \
+    touch /run/nginx.pid && \
+    chown -R nginx:nginx /run/nginx.pid && \
+    chown -R nginx:nginx /var/www/html && \
+    chown -R nginx:nginx /var/lib/nginx && \
+    chown -R nginx:nginx /var/log/nginx
+
+USER nginx
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["nginx", "-g", "daemon off;"]

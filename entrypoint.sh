@@ -1,4 +1,4 @@
 #!/bin/sh
-service ssh start
-service tor start
+sudo /usr/sbin/service ssh start
+sudo /usr/sbin/service tor start
 exec "$@"

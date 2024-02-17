@@ -1,8 +1,8 @@
 NAME = ft_onion
-PORT_LINK_1 = 80:80
-PORT_LINK_2 = 4242:4242
+PORT_LINK_1 = 8383:80
+PORT_LINK_2 = 8484:4242
 
-all:		build run
+all:	build run
 
 build:
 		docker build -t $(NAME) .
