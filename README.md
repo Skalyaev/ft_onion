@@ -8,11 +8,16 @@ What is the Tor network?
 ## Usage
 ```sh
 sudo apt update
-sudo apt install make
-sudo apt install docker.io
+sudo apt install git make docker.io
+```
+```sh
+echo "USR_PASS=exemple" > .env
+mkdir ssh && cp ~/.ssh/id_rsa.pub ssh/authorized_keys
+```
+```sh
 git clone git@github.com:Skalyaeve/ft_onion.git
 cd ft_onion
-sudo make # then browse to http://localhost
+sudo make # then browse to http://localhost:8383
 ```
 ```sh
 sudo make stop
