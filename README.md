@@ -1,25 +1,41 @@
-# Ft_onion
+# <p align="center">ft_onion</p>
+> *Projet d'introduction à la mise en œuvre d'un service caché sur Tor.*
+>
+> *L'objectif de ce projet est de créer une page web accessible uniquement depuis le réseau Tor en configurant un service caché. Un service caché est un service web dissimulé sur le réseau Tor.*
 
-Introductory project allowing the implementation of a hidden service on tor.
+## Preview
+![](https://media.githubusercontent.com/media/Skalyaeve/images-2/main/ft_onion.gif)
 
-The goal of this project is to create a web page and make it accessible from the Tor network by creating a hidden service. The hidden service is a web service that hides on the Tor network.
-What is the Tor network?
-
-## Usage
-```sh
-sudo apt update
-sudo apt install git make docker.io
+## Install
+```bash
+sudo apt update -y
+sudo apt install -y make
+sudo apt install -y docker.io
 ```
-```sh
+```bash
+link=Skalyaeve/ft_onion
+name=ft_onion
+
+git clone https://github.com/$link.git $name
+cd $name
+```
+```bash
 echo "USR_PASS=exemple" > .env
 mkdir ssh && cp ~/.ssh/id_rsa.pub ssh/authorized_keys
+sudo make
 ```
-```sh
-git clone git@github.com:Skalyaeve/ft_onion.git
-cd ft_onion
-sudo make # then browse to http://localhost:8383
+
+## Usage
 ```
-```sh
+sudo docker exec -it ft_onion bash
+```
+```bash
+cat home/nginx/tor-hostname
+exit
+# then browse to the link from the Tor browser
+```
+```bash
 sudo make stop
 sudo make fclean
 ```
+

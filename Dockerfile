@@ -11,13 +11,13 @@ RUN rm -f /etc/nginx/sites-enabled/* && \
     rm -f /var/www/html/* && \
     echo "nginx ALL=(ALL) NOPASSWD: /usr/sbin/service ssh start, /usr/sbin/service tor start, /usr/bin/cat /var/lib/tor/hidden_service/hostname" > /etc/sudoers.d/nginx
 
-COPY ./.env                 /.env
-COPY ./website/*            /var/www/html/
-COPY ./nginx.conf           /etc/nginx/nginx.conf
-COPY ./sshd_config          /etc/ssh/sshd_config
-COPY ./torrc                /etc/tor/torrc
-COPY ./entrypoint.sh        /entrypoint.sh
-COPY ./ssh/authorized_keys  /tmp/authorized_keys
+COPY ./.env /.env
+COPY ./website/* /var/www/html/
+COPY ./nginx.conf /etc/nginx/nginx.conf
+COPY ./sshd_config /etc/ssh/sshd_config
+COPY ./torrc /etc/tor/torrc
+COPY ./entrypoint.sh /entrypoint.sh
+COPY ./ssh/authorized_keys /tmp/authorized_keys
 
 RUN useradd -m -s /bin/bash nginx && \
     usermod -a -G sudo nginx && \
