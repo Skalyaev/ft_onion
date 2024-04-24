@@ -13,11 +13,8 @@ sudo apt install -y make
 sudo apt install -y docker.io
 ```
 ```bash
-link=Skalyaeve/ft_onion
-name=ft_onion
-
-git clone https://github.com/$link.git $name
-cd $name
+git clone https://github.com/Skalyaeve/ft_onion.git
+cd ft_onion
 ```
 ```bash
 echo "USR_PASS=exemple" > .env
