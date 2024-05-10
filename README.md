@@ -4,7 +4,7 @@
 > *L'objectif de ce projet est de créer une page web accessible uniquement depuis le réseau Tor en configurant un service caché. Un service caché est un service web dissimulé sur le réseau Tor.*
 
 ## Preview
-![](https://media.githubusercontent.com/media/Skalyaeve/images-2/main/ft_onion.gif)
+![](https://media.githubusercontent.com/media/Skalyaeve/images-2/main/screenshot/ft_onion.gif)
 
 ## Install
 ```bash
